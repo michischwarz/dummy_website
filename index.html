@@ -17,6 +17,7 @@
     <button id="button002">Klick mich</button>
     <button id="button003_dyn_text">Change Text</button>
     <button id="button004_toggle_secret">Toggle Secret</button>
+    <button id="button_render_chart">Render data plot</button>
     
     <!-- Zähleranzeige und Buttons -->
     <p>Aktueller Wert: <span id="counter">0</span></p>
@@ -27,7 +28,12 @@
     <p>Eine Zufallszahl: <span id="rand_num">---</span></p>
     <button id="fetch_rand">Show random Number</button>
 
+    <!-- Chart.js Diagramm -->
+    <canvas id="moodChart" style="max-width: 800px; height: 400px;"></canvas>
+
+
     <!-- Einbinden der JavaScript-Datei -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
