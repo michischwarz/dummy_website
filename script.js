@@ -29,7 +29,7 @@ window.onload = () => {
     });
 
     document.getElementById("fetch_rand").addEventListener("click", () => {
-        fetch("http://127.0.0.1:5000/api/random")
+        fetch("https://democracy1434.pythonanywhere.com/api/random")
             .then(res => res.json())
             .then(data => {
                 console.log("DATA VOM SERVER:", data); 
