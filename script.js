@@ -37,4 +37,73 @@ window.onload = () => {
                 document.getElementById("rand_num").textContent = data.number;
             });
     });
+
+    async function fetchEntries() {
+        const response = await fetch("https://democracy1434.pythonanywhere.com/api/entries");
+        const data = await response.json();
+        return data;
+    }
+
+    function transformEntriesToChartData(entries) {
+        return entries.map(entry => ({
+            x: entry.created_at,   // should be an ISO date string from your API
+            y: entry.mood          // integer
+        }));
+    }
+
+    async function renderMoodChart() {
+        const entries = await fetchEntries();
+        const dataPoints = transformEntriesToChartData(entries);
+
+        const ctx = document.getElementById("moodChart").getContext("2d");
+
+        const labels = dataPoints.map(p => p.x);
+        const values = dataPoints.map(p => p.y);
+
+        new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Mood over time",
+                    data: values,
+                    borderColor: "rgb(75, 192, 192)",
+                    backgroundColor: "rgba(75, 192, 192, 0.2)",
+                    tension: 0.2,
+                    pointRadius: 3,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Date"
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: "Mood"
+                        },
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
+    document.getElementById("button_render_chart").addEventListener("click", () => {
+        alert("Du hast den Plot gerendert!");
+        renderMoodChart();
+    });
+
+        
+
+
+
 };
