@@ -28,6 +28,17 @@ def get_db():
         database=DB_NAME
     )
 
+def drop_table():
+    db = get_db()
+    cursor = db.cursor()
+
+    cursor.execute("DROP TABLE IF EXISTS entries")
+
+    db.commit()
+    cursor.close()
+    db.close()
+    print("Table 'entries' dropped.")
+
 def create_table():
     db = get_db()
     cursor = db.cursor()
@@ -35,7 +46,7 @@ def create_table():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS entries (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            mood VARCHAR(50),
+            mood INT,
             note TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
@@ -51,9 +62,9 @@ def insert_dummy_data():
     cursor = db.cursor()
 
     dummy_entries = [
-        ("happy", "First test entry"),
-        ("tired", "Long day at work"),
-        ("excited", "Building my first full-stack app!"),
+        ("5", "First test entry"),
+        ("3", "Long day at work"),
+        ("9", "Building my first full-stack app!"),
     ]
 
     cursor.executemany(
@@ -121,6 +132,7 @@ def get_entries():
 @app.get("/api/reset_db")
 def reset_db():
     logger.info("Reseting data base.")
+    drop_table()
     create_table()
     insert_dummy_data()
     return "Database has been reset."
